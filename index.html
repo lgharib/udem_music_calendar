@@ -3,50 +3,67 @@
 
 <head>
   <meta charset='utf-8' />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calendrier publique UdeM Musique</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
 
   <link href='fullcalendar-4.3.1/packages/core/main.css' rel='stylesheet' />
   <link href='fullcalendar-4.3.1/packages/daygrid/main.css' rel='stylesheet' />
   <link href='fullcalendar-4.3.1/packages/timegrid/main.css' rel='stylesheet' />
 
+
+
   <script src='fullcalendar-4.3.1/packages/core/main.js'></script>
   <script src='fullcalendar-4.3.1/packages/daygrid/main.js'></script>
   <script src='fullcalendar-4.3.1/packages/timegrid/main.js'></script>
+  <script src='fullcalendar-4.3.1/packages/core/locales-all.js'></script>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-  <script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    document.addEventListener('DOMContentLoaded', function () {
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-      $.getJSON('http://192.168.49.51:9999/api/calendar/events', function (data) {
+  <link href='style.css' rel='stylesheet' />
 
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: ['dayGrid', 'timeGrid'],
-          defaultView: 'timeGridWeek',
-          events: data.results.message,
-          businessHours: {
-            // days of week. an array of zero-based day of week integers (0=Sunday)
-            daysOfWeek: [1, 2, 3, 4], // Monday - Thursday
-
-            startTime: '10:00', // a start time (10am in this example)
-            endTime: '18:00', // an end time (6pm in this example)
-          }
-        });
-
-        calendar.render();
-      });
-    });
-
-  </script>
+  <script src="app.js"></script>
 </head>
 
 <body>
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <br><br>
+    <h3>Sélectionner les salles</h3>
+    <div id="roomFilter"></div>
+    <a href="https://gesteve.umontreal.ca/web/login"><img src='Logo_UdeM-RVB.png' alt='logo udem' /></a>
+  </div>
+  <div id="main">
+    <button class="openbtn" onclick="openNav()">☰ Ouvrir filtre de classes</button>
+    <div id="datepicker-wrapper">
+      <p><label><span class="material-icons">
+            date_range
+          </span></label><input type="text" id="datepicker"></p>
+    </div>
+    <div id="month-name">
+      <h3></h3>
+    </div>
+    <div id="calendar"></div>
+  </div>
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "375px";
+      document.getElementById("main").style.marginLeft = "375px";
+    }
 
-  <div id='calendar'></div>
-
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0%";
+      document.getElementById("main").style.marginLeft = "0%";
+    }
+  </script>
 </body>
 
 </html>

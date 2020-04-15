@@ -1,0 +1,115 @@
+body {
+	font-family: "Lato", sans-serif;
+}
+
+  
+.sidebar {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+}
+
+.sidebar img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 60%;
+	background-color: white;
+}
+
+.sidebar h3 {
+	margin-left: 5%;
+	margin-right: 5%;
+	color: white;
+}
+
+.sidebar a {
+	/*padding: 8px 8px 8px 32px;*/
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+	padding-top: 2%;
+}
+
+.sidebar a:hover {
+	color: #f1f1f1;
+}
+  
+.sidebar .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+}
+  
+.openbtn {
+	font-size: 20px;
+	cursor: pointer;
+	background-color: #111;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+}
+  
+.openbtn:hover {
+	background-color: #444;
+}
+
+#main {
+	transition: margin-left .5s;
+	padding: 16px;
+}
+
+#datepicker {
+	width: 100%;
+}
+
+
+#calendar{
+	width: 95%;
+}
+
+#roomFilter {
+	text-align: left;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+#roomFilter input {
+	margin: 1%;
+}
+
+
+#datepicker-wrapper {
+	white-space:nowrap;
+	margin-top: 5%;
+	padding-right: 10%;
+}
+
+#month-name {
+	display: none;
+}
+
+/* On smaller screens, where width is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-width: 450px) {
+	.sidebar {padding-top: 15px;}
+	.sidebar a {font-size: 18px;}
+	.openbtn {
+		width: 100% !important;
+	}
+	#month-name {
+		display: block;
+		text-align: center;
+		font-size: 20px;
+	}
+}
