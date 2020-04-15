@@ -1,0 +1,50 @@
+.wrapper {
+	margin-top: 1%;
+  	display: grid;
+  	grid-template-columns: 1fr 4fr;
+}
+
+#calendar{
+	width: 95%;
+}
+
+#roomFilter {
+	text-align: left;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+#roomFilter input {
+	margin: 1%;
+}
+
+#sidebar {
+	text-align: center;
+}
+
+#datepicker-wrapper {
+	margin-top: 5%;
+}
+
+@media only screen and (max-width: 600px) {
+	.wrapper {
+		margin-top: 1%;
+	  	display: grid;
+	  	grid-template-columns: 1fr;
+	}
+
+
+	.fc-left {
+		width: 30%;
+	}
+
+	.fc-center {
+		width: 20%;
+	}
+
+	.fc-center h2{
+		font-size: 13px;
+	}
+
+
+}
