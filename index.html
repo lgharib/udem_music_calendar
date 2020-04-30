@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Calendrier publique UdeM Musique</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
 
@@ -15,7 +14,7 @@
   <link href='fullcalendar-4.3.1/packages/daygrid/main.css' rel='stylesheet' />
   <link href='fullcalendar-4.3.1/packages/timegrid/main.css' rel='stylesheet' />
 
-  
+
 
   <script src='fullcalendar-4.3.1/packages/core/main.js'></script>
   <script src='fullcalendar-4.3.1/packages/daygrid/main.js'></script>
@@ -25,31 +24,43 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
   <link href='style.css' rel='stylesheet' />
 
-  <script src="app.js" ></script>
+  <script src="app.js"></script>
 </head>
 
 <body>
-  <div class="wrapper">
-    <div id="sidebar">
-      <span class="material-icons">chevron_left</span>
-      <h3>Sélectionner les salles</h3>
-      <div id="roomFilter"></div>
-      <div id="datepicker-wrapper">
-        <p>Date: <input type="text" id="datepicker"></p>
-      </div>
-      <a href="https://gesteve.umontreal.ca/web/login"><img src='company_logo.jpeg' alt='logo udem'/></a>
-    </div>
-    <div id="main">
-      <div id='calendar'></div>
-    </div>
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <br><br>
+    <h3>Sélectionner les salles</h3>
+    <div id="roomFilter"></div>
+    <a href="https://gesteve.umontreal.ca/web/login"><img src='Logo_UdeM-RVB.png' alt='logo udem' /></a>
   </div>
+  <div id="main">
+    <button class="openbtn" onclick="openNav()">☰ Ouvrir filtre de classes</button>
+    <div id="datepicker-wrapper">
+      <p><label><span class="material-icons">
+            date_range
+          </span></label><input type="text" id="datepicker"></p>
+    </div>
+    <div id='calendar'></div>
+  </div>
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "375px";
+      document.getElementById("main").style.marginLeft = "375px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0%";
+      document.getElementById("main").style.marginLeft = "0%";
+    }
+  </script>
 </body>
 
 </html>
