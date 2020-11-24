@@ -1,19 +1,23 @@
 /*
   Author: Savoir-faire Linux
   Contributor: Gharib Larbi "larbi.gharib@savoirfairelinux.com"
-  Version: 1.0
+  Version: 2.0
   Description: This calendar is used to fecth data from the api 
   endpoint for calendar events in an Odoo instance.
   Dependencies: {
-                  fullcalendar-4.3.1,
-                  project_resource_calendar_api
+    fullcalendar-4.3.1,
+    project_resource_calendar_api
   }
+
+  TODO: Use eventSource to avoid removing events from the cache on week day month change
+
 */
 
 
 var url = 'https://gesteve.umontreal.ca/api/calendar/events/';
 var rooms_colors = [];
 function getRoomColor(room_name) {
+  let color = "";
   rooms_colors.forEach(function (room) {
     if (room.name == room_name) {
       color = room.color;
@@ -23,11 +27,19 @@ function getRoomColor(room_name) {
   return color;
 }
 
+let source = [];
+
+let currentDate = null;
+
+let lower_interval = 3;
+let higher_interval = 3;
+let period_delta = 7;
+
 function loadDataFromServer(calendar, url, room) {
-  var start_date = calendar.getDate();
-  start_date.setDate(start_date.getDate() - 30);
-  var end_date = calendar.getDate();
-  end_date.setDate(end_date.getDate() + 30);
+  var start_date = new Date(currentDate);
+  start_date.setDate(start_date.getDate() - lower_interval);
+  var end_date = new Date(currentDate);
+  end_date.setDate(end_date.getDate() + higher_interval);
   var data = {
     'start_date': start_date.toISOString().substring(0, 10),
     'end_date': end_date.toISOString().substring(0, 10),
@@ -38,11 +50,13 @@ function loadDataFromServer(calendar, url, room) {
     url: url,
     data: data,
     success: function (response) {
-      events = response.results.message;
-      events.forEach(function (event) {
-        event['backgroundColor'] = getRoomColor(event.room_name);
-        calendar.addEvent(event);
-      });
+      let events = response.results.message;
+      if(response.results.code !== 500){
+        events.forEach(function (event) {
+          event['backgroundColor'] = getRoomColor(event.room_name);
+          calendar.addEvent(event);
+        });
+      }
     },
     error: function (xhr) {
       console.log("Error");
@@ -62,19 +76,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var calendarEl = document.getElementById('calendar');
 
+  let defaultView = 'timeGridWeek';
+  let header = {
+    left: 'prev,next, today',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+  }
+  
+
   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     defaultView = 'timeGridDay';
     header = {
       left: '',
       center: 'prev, today,dayGridMonth,timeGridWeek,timeGridDay, next',
       right: ''
-    }
-  } else {
-    defaultView = 'timeGridWeek';
-    header = {
-      left: 'prev,next, today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
     }
   }
 
@@ -117,6 +132,73 @@ document.addEventListener('DOMContentLoaded', function () {
     // $('.fc-timeGridWeek-button').html('S');
     // $('.fc-timeGridDay-button').html('J');
   }
+
+
+
+  /*
+    Set initial interval values
+  */
+
+  function setIntervals(period) {
+    let refDate = new Date(currentDate);
+    if(period === "month") {
+      lower_interval = refDate.getDate();
+      higher_interval = 31 - refDate.getDate();
+      period_delta = 15;
+    }
+    else if (period === "week"){
+      lower_interval = refDate.getDay() + 1;
+      higher_interval = 8 - refDate.getDay();
+      period_delta = 7;
+    }
+    else {
+      lower_interval = 1;
+      higher_interval = 1;
+      period_delta = 1;
+    }
+    
+  }
+
+  setIntervals("week");
+
+
+  $(".fc-dayGridMonth-button").on('click', function () {
+    setIntervals("month");
+    calendar.getEvents().forEach(function (event) {
+      event.remove();
+    });
+    $('#roomFilter')[0].childNodes.forEach(function (item) {
+      if (item.childNodes[0].checked == true) {
+        loadDataFromServer(calendar, url, item.childNodes[0].name);
+      }
+    });
+  })
+  $(".fc-timeGridWeek-button").on('click', function () {
+    setIntervals("week");
+    console.log(lower_interval)
+    console.log(higher_interval)
+    console.log(period_delta)
+    calendar.getEvents().forEach(function (event) {
+      event.remove();
+    });
+    $('#roomFilter')[0].childNodes.forEach(function (item) {
+      if (item.childNodes[0].checked == true) {
+        loadDataFromServer(calendar, url, item.childNodes[0].name);
+      }
+    });
+  })
+  $(".fc-timeGridDay-button").on('click', function () {
+    setIntervals("day");
+    calendar.getEvents().forEach(function (event) {
+      event.remove();
+    });
+    $('#roomFilter')[0].childNodes.forEach(function (item) {
+      if (item.childNodes[0].checked == true) {
+        loadDataFromServer(calendar, url, item.childNodes[0].name);
+      }
+    });
+  })
+
   /*
     Get rooms from file and build filter
   */
@@ -131,6 +213,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }).then(function () {
 
+
+    currentDate = new Date(calendar.getDate());
 
     rooms.forEach(function (room) {
       loadDataFromServer(calendar, url, room);
@@ -164,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.getEvents().forEach(function (event) {
       event.remove();
     });
+    currentDate.setDate(currentDate.getDate() - period_delta);
     $('#roomFilter')[0].childNodes.forEach(function (item) {
       if (item.childNodes[0].checked == true) {
         loadDataFromServer(calendar, url, item.childNodes[0].name);
@@ -175,6 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.getEvents().forEach(function (event) {
       event.remove();
     });
+    currentDate.setDate(currentDate.getDate() + period_delta);
     $('#roomFilter')[0].childNodes.forEach(function (item) {
       if (item.childNodes[0].checked == true) {
         loadDataFromServer(calendar, url, item.childNodes[0].name);
@@ -186,12 +272,13 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.getEvents().forEach(function (event) {
       event.remove();
     });
+    currentDate = new Date(calendar.getDate())
     $('#roomFilter')[0].childNodes.forEach(function (item) {
       if (item.childNodes[0].checked == true) {
         loadDataFromServer(calendar, url, item.childNodes[0].name);
       }
     });
-    var todayDate = calendar.getDate();
+    todayDate = calendar.getDate();
     $("#month-name h3").text(todayDate.yyyymmdd());
   });
 
@@ -204,6 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $("#datepicker").datepicker({
       onSelect: function (date) {
         calendar.gotoDate(date);
+        currentDate = new Date(date);
         calendar.getEvents().forEach(function (event) {
           event.remove();
         });
