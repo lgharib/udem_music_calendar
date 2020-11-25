@@ -1,29 +1,42 @@
 [	{
-		"name": "A-569 GRIS",
+		"name": "A-561 GRIV",
 		"color": "#40a9dd"
 	},
 	{
-		"name": "B-188-1 Hexa",
-		"color": "#8AEF37"
-	},
-	{
-		"name": "B-187",
-		"color": "#ED4B4B"
-	},
-	{
-		"name": "B-195 Modulab",
-		"color": "#aaaa4C"
+		"name": "A-569 GRIS",
+		"color": "#00FF00"
 	},
 	{
 		"name": "A-573 GRIP",
 		"color": "#Efbb4D"
 	},
 	{
+		"name": "B-179 Laboratoire d'acoustique",
+		"color": "#FFFF00"
+	},
+	{
+		"name": "B-184 Mixtes",
+		"color": "#FF00FF"
+	},
+	{
+		"name": "B-188-1 Hexa",
+		"color": "#8AEF37"
+	},
+	{
 		"name": "B-188-2 Elvis",
 		"color": "#EFFF4E"
 	},
 	{
-		"name": "B-184 Mixtes",
+		"name": "B-195 Modulab",
 		"color": "#FFFCCC"
-	}
+	},
+	{
+		"name": "B-197 Electrolab",
+		"color": "#aaaa4C"
+	},
+	{
+		"name": "B-187",
+		"color": "#ED4B4B"
+	}	
+	
 ]
