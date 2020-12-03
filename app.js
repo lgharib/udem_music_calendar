@@ -14,7 +14,7 @@
 */
 
 
-var url = 'https://gesteve.umontreal.ca/api/calendar/events/';
+var url = 'https://staging.gesteve.umontreal.ca/api/calendar/events/';
 var rooms_colors = [];
 function getRoomColor(room_name) {
   let color = "";
@@ -44,6 +44,7 @@ function loadDataFromServer(calendar, url, room) {
     'start_date': start_date.toISOString().substring(0, 10),
     'end_date': end_date.toISOString().substring(0, 10),
     'room': room,
+    'timezone': Intl.DateTimeFormat().resolvedOptions().timeZone
   }
   $.ajax({
     dataType: 'json',
