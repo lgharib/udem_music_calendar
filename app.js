@@ -55,7 +55,8 @@ function loadDataFromServer(calendar, url, room) {
       if(response.results.code !== 500){
         events.forEach(function (event) {
           event['backgroundColor'] = getRoomColor(event.room_name);
-          calendar.addEvent(event);
+          if(event['state'] !== 'cancelled')
+            calendar.addEvent(event);
         });
       }
     },
