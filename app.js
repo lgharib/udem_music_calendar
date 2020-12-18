@@ -14,7 +14,7 @@
 */
 
 
-var url = 'https://staging.gesteve.umontreal.ca/api/calendar/events/';
+var url = 'https://gesteve.umontreal.ca/api/calendar/events/';
 var rooms_colors = [];
 function getRoomColor(room_name) {
   let color = "";
