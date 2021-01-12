@@ -149,8 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
       period_delta = 15;
     }
     else if (period === "week"){
-      lower_interval = refDate.getDay() + 1;
-      higher_interval = 8 - refDate.getDay();
+      lower_interval = refDate.getDay() + 3;
+      higher_interval = 9 - refDate.getDay();
       period_delta = 7;
     }
     else {
